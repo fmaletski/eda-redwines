@@ -1,7 +1,8 @@
-
 # Exploration of Red Wine Composition
 Fernando Maletski  
 ***
+
+
   This project aims to shed a light on how the chemical composition of a red wine affect it's quality, measured by a median sensory score from at least 3 wine tasting experts.
 
 
@@ -91,6 +92,11 @@ Fernando Maletski
   
   As we can see in the summary above, the quality scores in the dataset actually ranges from 3 to 8.
 
+
+```
+## Warning: Ignoring unknown parameters: bins
+```
+
 ![](Project_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
   As we can see in the summary above and on the plot, the quality scores in the dataset actually ranges from 3 to 8, normally distributed, with most scores ranging from 5 to 7, there is no decimal value.
@@ -102,61 +108,77 @@ Fernando Maletski
   
 ![](Project_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
-  Again we have a normally distributed variable, but this time, there's a few outliers (values above 13.5), with a mode at around 7.5.
+  Again we have a normally distributed variable, but this time, there's a few outliers, with a mode at around 7.0.
+
+#### Outliers
+
+  There are many ways to detect ouliers, throughout this project, we'll the boxplot definition:
   
+![](img/outliers.png)
+
+  Will be considered outliers values above Q2 + 1.5 IQR and below Q1 - 1.5 IQR. However, I don't think removing them is wise, because the dataset is already limited if we take into consideration the fact that there are very few wines of above or below average quality. The outliers may be the reason why a wine distinguishes itself, for better or worse.
+
+![](Project_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+
+Removing outliers and ajusting the bins brings no new information. For this variable, values below 4.5 and 12.25 are considered outliers.
+
 ### Volatile Acidity
 
   The amount of acetic acid, in grams per liter (g/dm^3). This acid in high quantities lead to the unpleasant, vinegar taste found in some wines.
   
-![](Project_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
   Most wines have between 0.3 and 0.8 grams per liter, with very few above the 1.0 mark. It's a bi modal normal distribution with 0.4 and 0.6 as modes.
+
+#### Outliers
+
+![](Project_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+
+Values above 1.025 are considered outliers.
 
 ### Citric Acid
 
   Measured in grams per liter (g/dm^3). Present in small quantities, citric acid adds a "freshness" and citric flavor to the wine.
 
-![](Project_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
  We have a pretty even, slightly positively skewed distribution. Is of note, that there's 2 clear spikes, at 0 and around 0.5 grams per liter.
+ 
+#### Outliers
+
+![](Project_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+
+Values above 0.8 are outliers. No surprises here.
  
 ### Residual Sugar
 
   The quantity of sugar remaining after the fermentation stops, in grams per liter (g/dm^3). It's rare to find wines with less than 1 g/liter and above 45 they are considered "sweet".
 
-![](Project_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
   Most wines have between 1 and 3 grams per liter. We have no "sweet" wines in our dataset.
 
+#### Outliers
 
-```
-## Warning: Removed 29 rows containing non-finite values (stat_bin).
-```
-
-![](Project_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
   
-  Zooming in to between 0 and 7 we can see a high concentration of values between 1.5 and 2.5.
+There are many outliers for this feature, values above 3.75. Removing them or using descriptive statistics may be necessary to create a profile by quality for Residual Sugar.
   
 ### Chlorides
 
   The amount of salt (sodium chloride), in grams per liter (g/dm^3).
   
-![](Project_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
-  Very few observations below 0.025 and above 0.125 grams per liter.
+  Very few observations below 0.025 and above 0.125 grams per liter, with many significant outliers.
+
+#### Outliers
+
+![](Project_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+
+  Discarding the outliers, values above 1.120 or below 0.04 we have a normal distribution with a mode at 0.0775.
   
-
-```
-## Warning: Removed 67 rows containing non-finite values (stat_bin).
-```
-
-```
-## Warning: Removed 1 rows containing missing values (geom_bar).
-```
-
-![](Project_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
-  
-  Discarding values above 0.15 we have a normal distribution with a mode at 0.075
+  We may encounter the same problems described in the Residual Sugar variable section.
   
 
 ### Free Sulfur Dioxide
@@ -165,25 +187,46 @@ Fernando Maletski
   
   Measured in milligrams per liter (mg/dm^3).
 
-![](Project_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
   Very few exceed the 'taste threshold' of 50 ppm, but we can expect a great impact on the score of these wines. The distribution is negatively skewed.
+  
+#### Outliers
+
+Makes no sense to remove outliers because of the 'taste threshold' described above.
 
 ### Total Sulfur Dioxide
 
   The total amount of SO2, free and bound in milligrams per liter (mg/dm^3). The impact on the score should be less evident than its free counterpart.
 
-![](Project_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
   Most data points have less than 120 mg/L. And we have a few outliers above the 270 mg/L mark. Again, we have a negatively skewed distribution.
-  
+
+#### Outliers
+
+![](Project_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+
+Values above 120 are outliers.
+
 ### Density
 
-  The density of the wine may be closer to that of water (1 kg/L) depending on the alcohol and sugar content. This variable is measured in kilograms per liter (kg/L)
+  The density of the wine may be closer to that of water (1 kg/L) depending on the alcohol and sugar content. This variable is measured in kilograms per liter (kg/L). Sugar tends to make the wine more dense and alcohol less dense.
   
-![](Project_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
   
-  The majority of wines are a little bit less dense than water (kg/L), but there is a few exceptions. Sugar tends to make the wine more dense and alcohol less dense. We will be using this variable, multiplied with the Free Sulfur Dioxide one to convert it to ppm so we can accurately compare it with the 50 ppm threshold from the dataset documentation:
+  The majority of wines are a little bit less dense than water (kg/L), but there is a few exceptions. 
+
+
+#### Outliers
+
+![](Project_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+  
+Values below 0.992 and above 1.001 are outliers.
+  
+### Free Sulfur Dioxide (ppm)
+ 
+Multiplying Free Sulfur Dioxide by density converts it to ppm so we can accurately compare it with the 50 ppm threshold from the dataset documentation:
   
 
 ```
@@ -191,33 +234,56 @@ Fernando Maletski
 ##  0.9973  6.9910 13.9100 15.8200 20.9900 71.8000
 ```
 
-![](Project_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
   As expected, the plot is very similar, but using the correct units is important to not make hasty assumptions.
-  
+
+#### Outliers
+
+  Makes no sense to remove outliers here.
+
 ### pH
 
   pH is a very well known numeric scale to specify the acidity or basicity of a liquid. It usually ranges from 0 (very acidic) to 14 (very basic), but can exceed those values on extreme cases.
   
-![](Project_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
   We have a nice normal distribution with most wines between 3 and 3.6 on the pH scale.
+  
+#### Outliers
+
+![](Project_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+
+Values below 2.925 and above 3.70 are outliers.
   
 ### Sulphates
 
   Sulphates are wine additives that contribute to the sulfur dioxide (SO2) levels. SO2 is necessary because it acts as an antimicrobial and antioxidant, preserving the wine. This variable is in grams per liter (g/dm3)
   
-![](Project_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
 
-  Very few wines exceed the 1.2 g/L mark, they can be considered outliers. This variable is approximately normally distributed with the mode at 0.6 g/L.
+  Very few wines exceed the 1.2 g/L mark, we have significan outliers here. 
+
+#### Outliers
+ 
+![](Project_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+  
+Removing the outliers, it becomes evident that this variable is approximately normally distributed with the mode at 0.6 g/L.
+
   
 ### Alcohol
 
   And lastly, alcohol content in percent by volume.
   
-![](Project_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
 
 Very few wines have less than 9 % alcohol, the rest are in a negatively skewed distribution peaking at around 9.5 %.
+
+#### Outliers
+ 
+![](Project_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
+
+Values above 13.5 are outliers.
 
 ### Wine Profile by Quality
 
@@ -242,14 +308,19 @@ Very few wines have less than 9 % alcohol, the rest are in a negatively skewed d
 ##      63    1319     217
 ```
 
+![](Project_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+  
+  Most wines are average, but now we have more wines in each bin.
+
+
   A radar plot using those profiles can help us identify trends in the data. We'll be using the ppm (parts per million) version of the 'Free Sulfur Dioxide' variable:
   
-![](Project_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
 
   As we have significant outliers in the following variables: sulphates, total sulfur dioxide, chlorides and residual sugar, taking the mean of all the variables in the groups and normalizing the results to between 0.5 ,for the lowest value, and 1.0, for the highest, can further help identifying the trends. It is important to say that doing so we lose some dimensionality information, but trends tend to be clearer:
 
 
-![](Project_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
 ***
 
 # Univariate Analysis
@@ -316,7 +387,7 @@ There was two variable with such pronounced outliers that I had to zoom in the p
 
 Here we'll be looking into the relationship between the variables, and dig deeper into the relationship of each one of them and the quality.
 
-![](Project_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
 
 This correlation (Pearson's) diagram helps identifying the most correlated variables in our dataset. Using the color scheme of blue for positive correlations and red for negative and applying a PCA (principal component analysis) to reorder the variables, it becomes easy to see which variables have a relationship, and how strong it is. A few observations:
 
@@ -365,11 +436,11 @@ Here are the r^2 (r-squared) values, this statistic measures how much (in %) a v
 
 * Alcohol, Sulphates, Citric Acid and Fixed Acidity have a positive correlation with quality. The relationship is weak, with the exception of Alcohol (moderate). This result confirms the findings of the previous analysis. The order of the following plots is from the most positively correlated to the least:
   
-![](Project_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
 
 These plots just illustrate what we found out so far. The overlaying box plots represent the bins (best, average and worst wines) created beforehand. I've omitted the legends to reduce clutter as they are not necessary with the quality printed on the bottom of each plot.
 
-![](Project_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 Breaking up the groups, we can see a nice and somewhat linear positive relationship between Quality and Citric Acid, and Quality and Sulphates. Fixed Acidity increases up until Quality = 7, then the median drops slightly, but the interquartile range (IQR) is bigger. Alcohol levels do not increase before we reach Quality = 6, meaning that even the most positively correlated variable can't save a really bad wine!
   
@@ -377,21 +448,21 @@ Breaking up the groups, we can see a nice and somewhat linear positive relations
   
 * Volatile Acidity, Total Sulfur Dioxide, Density and Chlorides have a negative correlation. The worst thing for a wine is Volatile Acidity as previously stated. This time the results are different from the previous analysis, so I'll investigate the variable found to have a negative effect before, pH, afterwards. The order of the plots is from the most negatively correlated to the least:
 
-![](Project_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
     
 The outliers in the Total Sulfur Dioxide and Chlorides variables makes the plots really hard to interpret, removing values exceeding 200 and 0.2, respectively, helps:
 
-![](Project_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
 
 With the exception of Volatile Acidity, it doesn't appear to be a linear relationship between these variables and quality, maybe breaking up the groups helps (I'll keep the limits for Total Sulfur Dioxide and Chlorides):
 
 
 
-![](Project_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-40-1.png)<!-- -->
 
 The variables have a negative, mostly linear relationship with quality, except Total Sulfur Dioxide, that similarly to what occurred with Alcohol, have a strange behavior up until a threshold, in this case, Quality = 5, so having low levels of SO2 can't save a bad wine. Now, the strange case, pH:
 
-![](Project_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
 
 Even without a meaningful correlation score, it's evident that higher pH has a negative impact on quality.
 
@@ -399,11 +470,11 @@ Even without a meaningful correlation score, it's evident that higher pH has a n
 
 Here we will take a look at the variables that have yet to exhibit a meaningful relationship with quality: Residual Sugar and Free Sulfur Dioxide (ppm).
 
-![](Project_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
 
 I've scaled the Y axis logaritimically (log10) as the values of Residual Sugar have a great range, but the many of the highest ones can be considered outliers. As expected, there's no meaningful relationship between it and Quality, the values are all over the place.
 
-![](Project_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-43-1.png)<!-- -->
 
 Even though we didn't find an relationship between Free Sulfur Dioxide and Quality up until now, these plots explain why. Having "low" amounts of free SO2 is good for the very best wines, but the ones that are not that great actually benefit from having the antioxidant and antibacterial effects of SO2. The information found in the documentation about concentrations above 50 ppm of free SO2 becoming evident in the smell and taste of wine doesn't appear to pay off until we're studying the very best wines (quality = 8).
 
@@ -488,29 +559,29 @@ Here's the correlation values between density and all the variables:
 
 The strongest relationships are between it and Fixed Acidity (0.67) and Alcohol (-0.50):
 
-![](Project_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-45-1.png)<!-- -->
 
 The plot between them and density overlayed by a LOESS Regression illustrates the expected relationships.
 
 The third most important variable is Residual Sugar(0.36):
 
-![](Project_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
 
 The relationship seems exponential until around Residual Sugar = 4, and noisy afterwards, so applying a log10 transformation in the X axis the plot becomes clearer (Plot 2).
 
 
 Next we'd have Citric Acid (0.36) and pH (-0.34), but they are both highly correlated with Fixed Acidity, so they don't show us much new information.
 
-![](Project_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
 
 The study of pH and the variables that deal with acidity is next on the list.
 
 
-Here's the best plot I could make to illustrate the relationship between Density and Fixed Acidity, Alcohol and Residual Sugar:
+Here's the best plot I could make to illustrate the relationship between Density, Fixed Acidity and Alcohol, the most significant variables:
 
-![](Project_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
 
-This plot shows the linear relationship between Fixed Acidity, the relationship is even more linear if we that the log10 of the X variable. The color of the dots represent the alcohol content, and the size, residual sugar, as the legends illustrates. There's a clear concentration of bigger dots at higher densities and higher alcohol content at lower ones.
+This plot shows the linear relationship between Fixed Acidity, the relationship is even more linear if we that the log10 of the X variable. The size of the dots represent the alcohol content, as the legends illustrates. There's a clear concentration of bigger dots at lower densities.
 
 ### pH and acids
 
@@ -530,46 +601,54 @@ Again, let's start with the correlation values of pH:
 
 The two variables with the strongest relationship are Fixed Acidity (-0.68) and Citric Acid (-0.54):
 
-![](Project_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
 
 The problem here is that both these variables are strongly correlated with one another (0.67):
 
-![](Project_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
 
 Using them both doesn't bring much new information, but as this is a study of acidity, I should to use it. 
 
 
 The next most correlated variable is density, even though we saw before that density is highly correlated with fixed acidity too, this variable can bring a lot of new information, mainly it's relationship with Alcohol and Residual Sugar, so it may be useful:
 
-![](Project_files/figure-html/unnamed-chunk-43-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
 
 There's a concentration of lower dense data points below the regression line, so this could be useful, but I'll keep only acid-related variables in the final plot.
 
 The last variable worth looking into is the most curious one, and the reason I wanted to look into pH, Volatile Acidity (0.23), as one would expect it to have a negative relationship with pH, as lower pH means a more acidic content, but the correlation says it's the opposite effect:
 
-![](Project_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
 
 A very Small effect, but it's we can see that the points with the highest volatile acidity are located above the regression line.
 
-Here's a curious plot illustrating all the acid-related variables:
+Here's 2 curious plots illustrating all the acid-related variables:
 
 
 ```r
-ggplot(data = data, aes(x = volatile.acidity, y = pH, size = fixed.acidity, 
-                        color = citric.acid)) + 
-  geom_point(alpha = 1) +
-  scale_color_distiller(palette = 'Spectral', direction = -1) +
+ggplot(data = data, aes(x = volatile.acidity, y = pH, size = fixed.acidity)) + 
+  geom_point(alpha = 0.3) +
   scale_y_continuous(breaks = seq(0, 10, 0.1), trans = 'identity') +
   geom_smooth(method = 'loess')
 ```
 
-![](Project_files/figure-html/unnamed-chunk-45-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-54-1.png)<!-- -->
 
-The coordinates and the regression shows us the weak, but curious, positive relationship between pH and Volatile Acidity. The size and color scale represent Fixed Acidity and Citric Acid respectively. A curiosity: the wines with the highest pH have both low Citric Acid and low Fixed Acidity, but the most acidic wine (pH ~ 2.74) has just a a moderate amount of Fixed Acidity, but the highest amount of Citric Acid in the dataset.
+
+```r
+ggplot(data = data, aes(x = volatile.acidity, y = pH, size = citric.acid)) + 
+  geom_point(alpha = 0.3) +
+  scale_y_continuous(breaks = seq(0, 10, 0.1), trans = 'identity') +
+  geom_smooth(method = 'loess')
+```
+
+![](Project_files/figure-html/unnamed-chunk-55-1.png)<!-- -->
+
+The coordinates and the regression shows us the weak, but curious, positive relationship between pH and Volatile Acidity. The size of the dots represent Fixed Acidity and Citric Acid respectively. A curiosity: the wines with the highest pH have both low Citric Acid and low Fixed Acidity, but the most acidic wine (pH ~ 2.74) has just a a moderate amount of Fixed Acidity, but the highest amount of Citric Acid in the dataset.
 
 ### Quality and everything else
 
-As we've already explored the relationship between all variables and quality, we can go ahead and plot the most correlated variables with quality together:
+As we've already explored the relationship between all variables and quality, we can go ahead and plot the 2 most correlated variables with quality together, Alcohol and Volatile Acidity:
 
 
 ```
@@ -583,15 +662,19 @@ As we've already explored the relationship between all variables and quality, we
 ##                -0.19                -0.39
 ```
 
-![](Project_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-57-1.png)<!-- -->
 
-In this plot we can observe how the these variables affect quality, and there's some interesting new conclusions we can make:
+In this plot we can observe how the these variables affect quality, but it is a bit overplotted, removing the average wines yields a much better result:
+
+![](Project_files/figure-html/unnamed-chunk-58-1.png)<!-- -->
+
+Analysing these plotes, there's some interesting new conclusions we can make:
 
 * No good wine have a high value of Volatile Acidity.
 
-* The wine with the most alcohol content is of quality 5, the other variables, Sulphates and Volatile Acidity, are within range of a much better wine. This illustrates that even with all this information, it's hard to predict the quality of a wine taking into account just the chemical composition.
+* The wine with the most alcohol content is of quality 5, the other variable, Volatile Acidity, is within range of a much better wine. This illustrates that even with all this information, it's hard to predict the quality of a wine taking into account just the chemical composition.
 
-This last point is the reason that using an linear model to estimate the quality ultimately fails:
+This last point is one the reasons that using an linear model to estimate the quality ultimately fails:
 
 
 
@@ -646,12 +729,12 @@ This last point is the reason that using an linear model to estimate the quality
 ```
 
 The 7 most correlated variables just account for 35.2% of the quality rating.
-Here's the regression line against a 3 fold cross validation:
+Here's the regression line against a 2 fold cross validation:
 
 
-![](Project_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-60-1.png)<!-- -->
 
-Trying to predict an ordered factor variable using a linear regression will never yields good results.
+This chart is terribly overplotted, but it illustrates the second reason why this model fails: trying to predict an ordered factor variable using a linear regression will never yields good results.
 
 
 Using a classifier, instead, makes more sense, so we need to split the dataset into training and testing:
@@ -735,7 +818,7 @@ If instead of trying to predict the exact score, we ask the model to predict if 
 
 This way the dataset is split pretty evenly, a great characteristic for fitting machine leaning models.
 
-![](Project_files/figure-html/unnamed-chunk-54-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-65-1.png)<!-- -->
 
 We should never buy wines with Volatile Acidity above 1.05, and the greater the alcohol content is, the more likely we are to buy it.
 
@@ -813,7 +896,7 @@ This conclusion inspired me to the build the third plot below, where we can see 
 
 ### Plot one
 
-![](Project_files/figure-html/unnamed-chunk-56-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-67-1.png)<!-- -->
 
 
 ### Description One
@@ -824,7 +907,7 @@ This plot helps the general public to familiarize themselves with the Quality Gr
 
 ### Plot Two
 
-![](Project_files/figure-html/unnamed-chunk-57-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-68-1.png)<!-- -->
 
 ### Description Two
 
@@ -851,17 +934,16 @@ Even losing dimensionality information, this plot was a key first step into unde
 
 ### Plot Three
 
-![](Project_files/figure-html/unnamed-chunk-58-1.png)<!-- -->
+![](Project_files/figure-html/unnamed-chunk-69-1.png)<!-- -->
 
 ### Description Three
 
-The three variables that better explain wine quality in this dataset are, from most important to the least:
+The two variables that better explain wine quality in this dataset are:
 
 * *Alcohol Content*: The variable with the most positive effect on quality (Correlation = 0.48)
 * *Volatile Acidity*: The opposite of Alcohol, this variable has the most negative effect (Correlation = -0.39)
-* *Sulphates*: This is an additive used on the production of the wines to make sure it has a healthy level of sulfur dioxide (SO2), this is important because it has antioxidant and antimicrobial proprieties (Correlation = 0.25)
 
-In this plot, all average wines are omitted to emphasize the difference of composition between the worst and the best wines in the dataset. There's no good wine with over 1.0 g/L of volatile acidity, and very few bad wines with over 11.5% alcohol. The effect of the addition of sulphates is less clear, but looking closely it's possible to conclude that a good wine needs at least some of this additive.
+In this plot, all average wines are omitted to emphasize the difference of composition between the worst and the best wines in the dataset. There's no good wine with over 1.0 g/L of volatile acidity, and very few bad wines with over 11.5% alcohol.
 
 # Reflection
 
@@ -879,6 +961,7 @@ Limitations of this analysis are the facts that the quality scores are a bit sub
 
 # References
 
+* Outliers http://www.whatissixsigma.net/box-plot-diagram-to-identify-outliers/
 * ggRadar https://www.rdocumentation.org/packages/ggiraphExtra/versions/0.1.0/topics/ggRadar
 * Corrgram https://stackoverflow.com/questions/19012529/correlation-corrplot-configuration
 * Regression analysis http://www.statmethods.net/stats/regression.html
